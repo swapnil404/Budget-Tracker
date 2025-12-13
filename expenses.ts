@@ -36,14 +36,25 @@ expensesRoute.post("/", async (c) => {
   return c.json({ expense });
 });
 
-expensesRoute.get("/:id{[0-9]+}", async (c) => {
+expensesRoute.delete("/:id{[0-9]+}", async (c) => {
   const id = Number.parseInt(c.req.param("id"));
-  const expense = fakeExpenses.find(expense => expense.id === id);
-  if (!expense){
+  const expense = fakeExpenses.find((expense) => expense.id === id);
+  console.log(id,expense);
+  if (!expense) {
     return c.notFound();
-  }else{
-  return c.json({expense});
+  } else {
+    return c.json({ expense });
   }
 });
 
+expensesRoute.get("/:id{[0-9]+}", async (c) => {
+  const id = Number.parseInt(c.req.param("id"));
+  const expense = fakeExpenses.find((expense) => expense.id === id);
+  if (!expense) {
+    return c.notFound();
+  } else {
+    fakeExpenses.splice(id - 1);
+    return c.json({ expense });
+  }
+});
 export { expensesRoute };
