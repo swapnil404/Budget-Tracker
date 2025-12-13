@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { logger } from "hono/logger";
+import { z } from "zod";
 const expensesRoute = new Hono();
 
 expensesRoute.use("*", logger());
@@ -17,11 +18,18 @@ const fakeExpenses: expense[] = [
   { id: 5, title: "Coffee", amount: 4.5 },
 ];
 
+const createPostSchema = z.object({
+  title: z.string().min(1).max(100),
+  amount: z.number().positive(),
+});
+
 expensesRoute.get("/", async (c) => {
   return c.json({ expense: fakeExpenses });
 });
 expensesRoute.post("/", async (c) => {
-  const expense = await c.req.json();
+  const data = await c.req.json();
+  const expense = createPostSchema.parse(data);
+  fakeExpenses.push({...expense,id:fakeExpenses.length+1})
   return c.json({ expense });
 });
 
