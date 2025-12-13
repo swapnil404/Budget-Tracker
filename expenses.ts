@@ -33,4 +33,14 @@ expensesRoute.post("/", async (c) => {
   return c.json({ expense });
 });
 
+expensesRoute.get("/:id{[0-9]+}", async (c) => {
+  const id = Number.parseInt(c.req.param("id"));
+  const expense = fakeExpenses.find(expense => expense.id === id);
+  if (!expense){
+    return c.notFound();
+  }else{
+  return c.json({expense});
+  }
+});
+
 export { expensesRoute };
