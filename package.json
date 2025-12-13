@@ -1,6 +1,6 @@
 {
   "name": "budgetctracker",
-  "module": "index.ts",
+  "module": "server/index.ts",
   "type": "module",
   "private": true,
   "devDependencies": {
