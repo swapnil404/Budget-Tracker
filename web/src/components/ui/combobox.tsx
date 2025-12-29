@@ -68,12 +68,9 @@ function ComboboxInput({
       />
       <InputGroupAddon align="inline-end">
         {showTrigger && (
-          <InputGroupButton
-            size="icon-xs"
-            variant="ghost"
-            render={<ComboboxTrigger />}
+          <ComboboxTrigger
             data-slot="input-group-button"
-            className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent"
+            className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent size-6 p-0 inline-flex items-center justify-center rounded-4xl text-sm shadow-none hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50"
             disabled={disabled}
           />
         )}
