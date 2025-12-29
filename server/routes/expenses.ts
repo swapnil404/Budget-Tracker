@@ -1,7 +1,11 @@
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { z } from "zod";
+import {cors} from 'hono/cors';
+
 const expensesRoute = new Hono();
+
+expensesRoute.use("*", cors());
 
 expensesRoute.use("*", logger());
 
@@ -29,6 +33,11 @@ const expensePostSchema = z.object({
 expensesRoute.get("/", async (c) => {
   return c.json({ expense: fakeExpenses });
 });
+
+expensesRoute.get ("/total-spent", async (c) =>{
+  const total = fakeExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+return c.json({ total });
+})
 expensesRoute.post("/", async (c) => {
   const data = await c.req.json();
   const expense = expensePostSchema.parse(data);
